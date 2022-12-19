@@ -73,7 +73,7 @@ char	*get_next_line(int fd)
 // 	int		nb_line;
 // 	char	*tmp;
 
-// 	printf("\033[0;36m=== TEsST N°\033[0;31m1\033[0;36m ===\n\033[0m\nOUTPUT:\n\n");
+// 	printf("\033[0;36m=== TEST N°\033[0;31m1\033[0;36m ===\n\033[0m\nOUTPUT:\n\n");
 // 	file = open("files/only_nl.txt", O_RDONLY);
 // 	i = 0;
 // 	nb_line = 19;
