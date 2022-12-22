@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jchapell <jchapell@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/11/18 19:59:44 by jchapell          #+#    #+#             */
-/*   Updated: 2022/12/21 01:12:09 by jchapell         ###   ########.fr       */
+/*   Updated: 2022/12/22 05:03:28 by jchapell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 char	*parse_line(char **s)
 {
@@ -38,28 +38,45 @@ char	*parse_line(char **s)
 	return (res);
 }
 
+// void	wich_fd(int fd, char *buf, int rd)
+// {
+// 	static char	**buf_tab;
+// 	char		**temp_tab;
+
+// 	if (tab_len(buf_tab) < fd + 2)
+// 	{
+// 		temp_tab = malloc(sizeof(char *) * (fd - 2));
+// 		ft_tab_copy(buf_tab, temp_tab);
+// 		temp_tab[fd - 2] = malloc(sizeof(char) * (ft_strlen(buf) + 1));
+// 		temp_tab[fd - 2] = ft_strjoin(buf, "");
+// 		printf("New file discovered\n");
+// 	}
+// 	else
+// 		printf("Je la connais deja celle la bro\n");
+// }
+
 char	*get_next_line(int fd)
 {
 	char		buf[BUFFER_SIZE + 1];
 	int			rd;
-	static char	*last_buffer = NULL;
+	static char	*last_buffer[4096];
 
 	rd = -1;
-	if (last_buffer && ft_strchr(last_buffer, '\n', rd))
-		return (parse_line(&last_buffer));
-	while (!ft_strchr(last_buffer, '\n', rd))
+	if (last_buffer[fd] && ft_strchr(last_buffer[fd], '\n', rd))
+		return (parse_line(&last_buffer[fd]));
+	while (!ft_strchr(last_buffer[fd], '\n', rd))
 	{
 		rd = read(fd, buf, BUFFER_SIZE);
 		if (rd < 0)
 		{
-			free(last_buffer);
-			last_buffer = NULL;
+			free(last_buffer[fd]);
+			last_buffer[fd] = NULL;
 			return (0);
 		}
 		buf[rd] = '\0';
 		if (rd != BUFFER_SIZE)
-			return (end_nullifier(&last_buffer, buf));
-		last_buffer = ft_strjoin(last_buffer, buf);
+			return (end_nullifier(&last_buffer[fd], buf));
+		last_buffer[fd] = ft_strjoin(last_buffer[fd], buf);
 	}
-	return (parse_line(&last_buffer));
+	return (parse_line(&last_buffer[fd]));
 }
