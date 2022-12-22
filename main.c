@@ -71,6 +71,8 @@ int	main(void)
 	i = 0;
 	while (++i < 5)
 	{
+		//SI JAMAIS: open compte a partire de 3, genre le premier fichier == 3
+		//le deuxieme == 4 etc..
 		f1 = open("files/1", O_RDONLY);
 		printf("%d\n", f1);
 		wich_fd(f1, "", 0);
